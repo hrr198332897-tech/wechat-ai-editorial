@@ -1,0 +1,272 @@
+[
+  {
+    "name": "OpenAI 新闻",
+    "region": "海外",
+    "kind": "official",
+    "subject": "OpenAI",
+    "url": "https://openai.com/news/rss.xml",
+    "hosts": [
+      "openai.com"
+    ],
+    "limit": 5,
+    "type": "feed"
+  },
+  {
+    "name": "OpenAI API 更新日志",
+    "region": "海外",
+    "kind": "official",
+    "subject": "OpenAI",
+    "url": "https://developers.openai.com/api/docs/changelog",
+    "hosts": [
+      "developers.openai.com"
+    ],
+    "limit": 4,
+    "type": "api_changelog"
+  },
+  {
+    "name": "Anthropic 新闻",
+    "region": "海外",
+    "kind": "official",
+    "subject": "Anthropic",
+    "url": "https://www.anthropic.com/news",
+    "hosts": [
+      "anthropic.com",
+      "claude.com"
+    ],
+    "limit": 5,
+    "type": "newsroom"
+  },
+  {
+    "name": "Claude Code 发布",
+    "region": "海外",
+    "kind": "repository",
+    "subject": "Claude Code",
+    "url": "https://github.com/anthropics/claude-code/releases.atom",
+    "hosts": [
+      "github.com"
+    ],
+    "limit": 3,
+    "type": "feed"
+  },
+  {
+    "name": "Google DeepMind 博客",
+    "region": "海外",
+    "kind": "official",
+    "subject": "Google DeepMind",
+    "url": "https://deepmind.google/blog/rss.xml",
+    "hosts": [
+      "deepmind.google",
+      "blog.google"
+    ],
+    "limit": 4,
+    "type": "feed"
+  },
+  {
+    "name": "Google Gemini 博客",
+    "region": "海外",
+    "kind": "official",
+    "subject": "Gemini",
+    "url": "https://blog.google/products-and-platforms/products/gemini/rss/",
+    "hosts": [
+      "blog.google",
+      "deepmind.google"
+    ],
+    "limit": 4,
+    "type": "feed"
+  },
+  {
+    "name": "Meta Llama 发布",
+    "region": "海外",
+    "kind": "repository",
+    "subject": "Meta Llama",
+    "url": "https://github.com/meta-llama/llama-models/releases.atom",
+    "hosts": [
+      "github.com"
+    ],
+    "limit": 2,
+    "type": "feed"
+  },
+  {
+    "name": "Meta AI 新闻",
+    "region": "海外",
+    "kind": "official",
+    "subject": "Meta AI",
+    "url": "https://about.fb.com/news/feed/",
+    "hosts": [
+      "about.fb.com"
+    ],
+    "limit": 3,
+    "type": "feed",
+    "include": "\\bAI\\b|\\bMuse\\b|\\bLlama\\b"
+  },
+  {
+    "name": "NVIDIA 博客",
+    "region": "海外",
+    "kind": "official",
+    "subject": "NVIDIA",
+    "url": "https://blogs.nvidia.com/feed/",
+    "hosts": [
+      "nvidia.com"
+    ],
+    "limit": 3,
+    "type": "feed"
+  },
+  {
+    "name": "Microsoft Research 博客",
+    "region": "海外",
+    "kind": "official",
+    "subject": "Microsoft Research",
+    "url": "https://www.microsoft.com/en-us/research/blog/feed/",
+    "hosts": [
+      "microsoft.com"
+    ],
+    "limit": 2,
+    "type": "feed"
+  },
+  {
+    "name": "Apple Machine Learning Research",
+    "region": "海外",
+    "kind": "official",
+    "subject": "Apple",
+    "url": "https://machinelearning.apple.com/rss.xml",
+    "hosts": [
+      "machinelearning.apple.com"
+    ],
+    "limit": 2,
+    "type": "feed"
+  },
+  {
+    "name": "AWS Machine Learning 博客",
+    "region": "海外",
+    "kind": "official",
+    "subject": "AWS",
+    "url": "https://aws.amazon.com/blogs/machine-learning/feed/",
+    "hosts": [
+      "aws.amazon.com"
+    ],
+    "limit": 2,
+    "type": "feed"
+  },
+  {
+    "name": "Hugging Face 博客",
+    "region": "海外",
+    "kind": "official",
+    "subject": "Hugging Face",
+    "url": "https://huggingface.co/blog/feed.xml",
+    "hosts": [
+      "huggingface.co"
+    ],
+    "limit": 3,
+    "type": "feed"
+  },
+  {
+    "name": "arXiv 人工智能新论文",
+    "region": "海外",
+    "kind": "research",
+    "subject": "arXiv",
+    "url": "https://rss.arxiv.org/rss/cs.AI",
+    "hosts": [
+      "arxiv.org"
+    ],
+    "limit": 3,
+    "type": "feed"
+  },
+  {
+    "name": "DeepSeek API 官方公告",
+    "region": "国内",
+    "kind": "official",
+    "subject": "DeepSeek",
+    "url": "https://api-docs.deepseek.com/news/",
+    "hosts": [
+      "api-docs.deepseek.com"
+    ],
+    "limit": 2,
+    "type": "deepseek"
+  },
+  {
+    "name": "通义千问博客",
+    "region": "国内",
+    "kind": "official",
+    "subject": "通义千问",
+    "url": "https://qwenlm.github.io/blog/index.xml",
+    "hosts": [
+      "qwenlm.github.io",
+      "qwen.ai"
+    ],
+    "limit": 2,
+    "type": "feed"
+  },
+  {
+    "name": "Qwen Code 发布",
+    "region": "国内",
+    "kind": "repository",
+    "subject": "Qwen Code",
+    "url": "https://github.com/QwenLM/qwen-code/releases.atom",
+    "hosts": [
+      "github.com"
+    ],
+    "limit": 3,
+    "type": "feed",
+    "stable_only": true
+  },
+  {
+    "name": "Kimi CLI 发布",
+    "region": "国内",
+    "kind": "repository",
+    "subject": "Kimi CLI",
+    "url": "https://github.com/MoonshotAI/kimi-cli/releases.atom",
+    "hosts": [
+      "github.com"
+    ],
+    "limit": 3,
+    "type": "feed"
+  },
+  {
+    "name": "豆包模型上架记录",
+    "region": "国内",
+    "kind": "official",
+    "subject": "豆包",
+    "url": "https://console.volcengine.com/ark/region%3Acn-beijing/docs/agent-plan-personal-model-release",
+    "hosts": [
+      "console.volcengine.com"
+    ],
+    "limit": 3,
+    "type": "volcengine"
+  },
+  {
+    "name": "智谱 ZCode 发布",
+    "region": "国内",
+    "kind": "official",
+    "subject": "ZCode",
+    "url": "https://zcode.z.ai/en/changelog",
+    "hosts": [
+      "zcode.z.ai"
+    ],
+    "limit": 2,
+    "type": "zcode"
+  },
+  {
+    "name": "中国网信网政策文件",
+    "region": "国内",
+    "kind": "policy",
+    "subject": "中国网信网",
+    "url": "https://www.cac.gov.cn/wxzw/zcfg/zcwj/A09370306index_1.htm",
+    "hosts": [
+      "cac.gov.cn"
+    ],
+    "limit": 4,
+    "type": "policies"
+  },
+  {
+    "name": "GitHub 新开源项目线索",
+    "region": "全球",
+    "kind": "discovery",
+    "subject": "GitHub",
+    "url": "https://api.github.com/search/repositories",
+    "hosts": [
+      "github.com"
+    ],
+    "limit": 3,
+    "type": "github"
+  }
+]
