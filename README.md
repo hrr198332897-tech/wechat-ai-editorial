@@ -6,6 +6,8 @@
 
 从私有 GitHub 仓库克隆项目后，在仓库根目录开启新的 Codex 对话。可以说「用 $wechat-ai-workflow 做一篇已批准的 AI 选题，从查资料做到秀米交接」，或「用 $wechat-ai-workflow 把我的这条修改记录进编辑准则」。[流程与 Skill 调用表](.agents/skills/wechat-ai-workflow/SKILL.md) · [编辑准则](.agents/skills/wechat-ai-workflow/references/editorial.md) · [反馈记录与数据恢复](EDITORIAL-HISTORY.md)
 
+已完成的端到端范例见 [Anthropic 上市稿](examples/anthropic-ipo-2026-11-20/article.md)及其[制作记录](examples/anthropic-ipo-2026-11-20/production-notes.md)。
+
 ## 安装和首跑
 
 需要 Python 3.11 或更高版本及可访问所配置信源的网络。Windows 下，在此文件所在的目录打开 PowerShell。

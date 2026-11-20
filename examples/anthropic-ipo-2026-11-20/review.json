@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "decision": "pass",
+  "pass_number": 1,
+  "publishable": true,
+  "dimensions": {
+    "accuracy": 5.0,
+    "viewpoint": 4.0,
+    "usefulness": 4.0,
+    "voice": 4.0,
+    "readability": 4.0
+  },
+  "dimension_average": 4.2,
+  "blockers": [],
+  "major_issues": [],
+  "notes": "区分发售总额、净募资和多年采购承诺。用相同期间营收为分母，避免把营收写成利润。FrontierCode 2.0 明示厂商和档位。",
+  "draft_chars": 1743,
+  "final_chars": 1748,
+  "edit_ratio": 0.0146,
+  "structure_changed": true
+}
