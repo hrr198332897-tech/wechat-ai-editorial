@@ -29,6 +29,14 @@ class WorkflowTests(unittest.TestCase):
         self.assertTrue(matches(a, b))
         self.assertFalse(matches(a, item("Introducing Gemini 3.5 Pro", "https://example.com/c")))
         self.assertFalse(matches(a, item("Gemini 3.5 Flash price cut", "https://example.com/p")))
+        self.assertFalse(matches(
+            item("Gemini 3.5 Flash now available in app", "https://example.com/app"),
+            item("Gemini 3.5 Flash now available in API", "https://example.com/api"),
+        ))
+        self.assertFalse(matches(
+            item("Introducing Qwen 3.5-9B", "https://example.com/9b"),
+            item("Introducing Qwen 3.5-27B", "https://example.com/27b"),
+        ))
         self.assertFalse(matches(a, item("Introducing Gemini 3.5 Flash", "https://example.com/old",
                                         published=(NOW - timedelta(days=30)).isoformat())))
         self.assertEqual(canonical("https://EXAMPLE.com/a/?utm_source=test&id=2#x"),
