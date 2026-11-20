@@ -2,6 +2,10 @@
 
 这个本地工具按需采集海内外 AI 一手来源，回查原文，合并重复事件，生成可审阅的中文选题卡。你批准后，工具才生成写作底稿和秀米交接素材。日常操作在本机完成，只访问配置中的公开来源。
 
+## 在 Codex 中调用
+
+从私有 GitHub 仓库克隆项目后，在仓库根目录开启新的 Codex 对话。可以说「用 $wechat-ai-workflow 做一篇已批准的 AI 选题，从查资料做到秀米交接」，或「用 $wechat-ai-workflow 把我的这条修改记录进编辑准则」。[流程与 Skill 调用表](.agents/skills/wechat-ai-workflow/SKILL.md) · [编辑准则](.agents/skills/wechat-ai-workflow/references/editorial.md) · [反馈记录与数据恢复](EDITORIAL-HISTORY.md)
+
 ## 安装和首跑
 
 需要 Python 3.11 或更高版本及可访问所配置信源的网络。Windows 下，在此文件所在的目录打开 PowerShell。

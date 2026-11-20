@@ -3,3 +3,9 @@ __pycache__/
 .venv/
 data/
 exports/
+.env
+.env.*
+!.env.example
+*_auth.json
+*.sqlite-wal
+*.sqlite-shm

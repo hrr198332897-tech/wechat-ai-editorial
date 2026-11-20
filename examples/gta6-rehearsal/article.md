@@ -52,11 +52,6 @@ Google 的演示和 Rockstar 的发售资料各有出处。这里讨论的是生
 
 如果你还记得洛圣都的一条路，现在轮到莱昂尼达了。能留下来的也许会是一段电台、一处转角，或一次原本没有安排的停留。下次打开游戏时，可以从你最想记住的那个地方开始。
 
-## 参考来源
-
-- [Rockstar 发售页](https://www.rockstargames.com/VI/out-now) · [Take-Two 首发平台与日期](https://www.take2games.com/ir/news/take-two-interactive-software-inc-reports-results-fiscal-4) · [Rockstar《GTA 5》首发时间](https://www.rockstargames.com/newswire/article/ak14o88385oo81/grand-theft-auto-v-is-coming-9172013.html)
-- [Rockstar 莱昂尼达地点与人物](https://www.rockstargames.com/VI/only-in-leonida/cal) · [Rockstar 游戏电台](https://www.rockstargames.com/newswire/article/o3982oa93a23k4/the-music-of-grand-theft-auto-vi-in-game-radio-stations)
-- [RPGamer 对 Rob Nelson 的采访](https://rpgamer.com/2026/11/grand-theft-auto-vi-interview/) · [TechRadar 对 Rob Nelson 的采访](https://www.techradar.com/gaming/gta-6-head-of-development-says-the-emphasis-on-interactivity-adds-friction-to-almost-every-facet-of-gameplay-it-means-you-have-to-think-a-little-bit-more-about-what-you-want-to-do-and-when-and-why-you-want-to-do-it)
-- [Google Project Genie 11 月 18 日更新](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/genie-4-now-available-project-genie/) · [PlayStation 首发说明](https://blog.playstation.com/2026/11/10/pre-load-grand-theft-auto-vi-on-ps5-starting-today/)
+**主要出处**　[Rockstar 发售页](https://www.rockstargames.com/VI/out-now) · [Rockstar 莱昂尼达地点与人物](https://www.rockstargames.com/VI/only-in-leonida/cal) · [Google Project Genie 11 月 18 日更新](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/genie-4-now-available-project-genie/)
 
 本文由 AI 辅助撰写，配图为原创 AI 概念图。发布、平台和产品信息已核对公开来源。
