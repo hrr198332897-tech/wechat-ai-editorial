@@ -1,6 +1,7 @@
 """Turn a candidate and its evidence into editable Chinese article copy."""
 import re
 from dataclasses import dataclass
+from datetime import datetime, timedelta, timezone
 
 from models import Item
 
@@ -101,6 +102,8 @@ class Feature:
 
 
 FEATURES = (
+    Feature("Bedrock 接入", r"native (?:amazon )?bedrock provider|use kimi code cli with models on amazon bedrock",
+            "接上 Bedrock 后，认证和模型选择怎么配？", "核对新版配置、AWS 凭证与可选模型"),
     Feature("透明 PNG", r"transparent (?:backgrounds? (?:in|for) )?png|(?:原生 |支持 )?透明\s*PNG|PNG\s*透明背景",
             "透明 PNG 怎么接到现有出图流程？", "用同一素材查看输出文件是否保留透明通道"),
     Feature("RGBA 输出", r"(?:native )?rgba (?:image )?(?:output|export)|(?:原生\s*)?RGBA\s*(?:图片|图像)?\s*(?:生成|输出|导出)",
@@ -126,16 +129,16 @@ FEATURES = (
 _CAUTION = re.compile(
     r"\b(?:will|would|could|might|may|plan(?:s|ned)?|upcoming|not|no|without|previously|"
     r"unsupported|requested|suggested|coming soon|roadmap|hopes?)\b|"
-    r"将支持|将推出|尚未|暂无|未支持|不支持|不包含|计划|拟于|预计|未来|即将|考虑|曾(?:经)?支持",
+    r"将支持|将推出|尚未|暂无|未支持|不支持|不包含|不再|计划|拟于|预计|未来|即将|考虑|曾(?:经)?支持",
     re.I,
 )
 _ADDITION = re.compile(r"\b(?:adds?|added|introduces?|introduced) (?:new )?support (?:for|to)\b|首次支持|新增(?:原生|支持)?", re.I)
 _REMOVAL = re.compile(r"\b(?:remove[sd]?|deprecat\w+|drops?|stop(?:s|ped) supporting)\b|移除|停止支持|废弃", re.I)
 _VERSION = re.compile(r"(?<![\w.])v\d+(?:\.\d+){1,3}(?:[-.]?(?:alpha|beta|rc)[-.]?\d*)?(?![\w.])", re.I)
 _MODEL = re.compile(
-    r"(?<!\w)(?:GPT|Claude|Gemini|Llama|Qwen|DeepSeek|Kimi|GLM|Doubao|Seedance|Seedream|Gemma|"
+    r"(?<!\w)(?:GPT|Claude|Gemini|Genie|Llama|Qwen|DeepSeek|Kimi|GLM|Seedance|Seedream|Gemma|"
     r"Mistral|Grok|Codex)[ -]?(?:[A-Za-z]{1,12}[- ])?\d+(?:\.\d+){0,2}"
-    r"(?:[- ](?:Pro|Flash|Max|Ultra|Mini|Opus|Sonnet|Haiku|Thinking|Turbo|Lite|[0-9]+[Bb]))?\b",
+    r"(?:[- ](?:Pro|Flash|Max|Ultra|Mini|Opus|Sonnet|Haiku|Thinking|Turbo|Lite|Neon|Hydrogen|[0-9]+[Bb]))*\b",
     re.I,
 )
 
@@ -144,10 +147,12 @@ def _clean(value: str) -> str:
     return " ".join(str(value or "").split())
 
 
-def _subject(primary: Item, subject: str) -> str:
+def _subject(primary: Item, subject: str, category: str) -> str:
     name = _clean(subject or primary.subject)
     model = _MODEL.search(primary.title)
-    if model and (not name or model.group(0).casefold().startswith(name.casefold())):
+    if re.search(r"\bKimi Code CLI\b", primary.title, re.I):
+        name = "Kimi Code CLI"
+    elif model and (category == "模型发布" or not name or model.group(0).casefold().startswith(name.casefold())):
         name = model.group(0)
     name = name or _clean(primary.source) or "本次更新"
     version = _VERSION.search(primary.title)
@@ -160,15 +165,15 @@ def _feature(evidence_text: str, category: str) -> tuple[Feature | None, bool]:
     if category in {"技术研究", "政策", "产业动态", "算力与基建"}:
         return None, False
     sentences = [
-        segment for segment in re.split(r"[。！？!?；;]+|(?<!\d)\.\s+|\.\s+(?=[A-Z])|\n", evidence_text)
-        if segment.strip() and not _CAUTION.search(segment)
+        segment for segment in re.split(r"[。！？!?；;，]+|(?<!\d)\.\s+|\.\s+(?=[A-Z])|\n", evidence_text)
+        if segment.strip() and not _CAUTION.search(segment) and not _REMOVAL.search(segment)
     ]
     for feature in FEATURES:
         for segment in sentences:
             match = re.search(feature.pattern, segment, flags=re.I)
             if match:
                 prefix = segment[max(0, match.start() - 80):match.start()]
-                added = bool(_ADDITION.search(prefix)) and not _REMOVAL.search(segment)
+                added = bool(_ADDITION.search(prefix))
                 return feature, added
     return None, False
 
@@ -189,13 +194,24 @@ def build_copy(
 ) -> dict:
     """Generate an attributed draft. Callers enforce the approval gate before exporting."""
     profile = PROFILES.get(category, PROFILES["产业动态"])
-    name = _subject(primary, subject)
-    matched = evidence.get("matched") is True and primary.kind in {"official", "repository", "research", "discovery"}
+    name = _subject(primary, subject, category)
+    matched = evidence.get("matched") is True and primary.kind in {
+        "official", "repository", "research", "discovery", "government", "policy"
+    }
     excerpt = _clean(evidence.get("excerpt", "")) if matched and primary.kind != "discovery" else ""
-    feature, added = _feature(excerpt, category)
+    evidence_text = "\n".join([excerpt, _clean(evidence.get("title", "")),
+                               *evidence.get("detail_paragraphs", [])]) if matched else ""
+    feature, added = _feature(evidence_text, category)
     source = _clean(primary.source) or "所列原始来源"
     published = primary.published or ""
     date = published[:10] if re.match(r"^\d{4}-\d{2}-\d{2}", published) else ""
+    if date:
+        try:
+            instant = datetime.fromisoformat(published)
+            if instant.tzinfo is not None:
+                date = instant.astimezone(timezone(timedelta(hours=8))).date().isoformat()
+        except ValueError:
+            pass
     date_prefix = f"{date}，" if date else ""
     if primary.kind == "research" or category == "技术研究":
         publisher = "论文作者"

@@ -44,7 +44,7 @@ python -m venv .venv
 
 批准后，`exports/topic-<ID>/` 包含选题卡 `card.md`、结构化证据 `card.json`、底稿 `draft.md`、`draft.txt`、浏览器预览 `draft.html`、内联样式片段 `xiumi-fragment.html` 以及配图建议和权利记录 `images.md`。
 
-先读底稿并补齐卡片待核项。优先尝试在秀米图文的「更多」菜单导入 `draft.md`。还可用 `draft.txt` 粘贴正文，在秀米内排版。账号功能权限、HTML 粘贴和样式保留的实证范围见 [秀米接入说明](XIUMI.md)。导入后逐项校对摘要、正文层级、文字链接、手机预览与图片授权。
+先读底稿并补齐卡片待核项。秀米图文的「更多 → 导入Word/Excel/Markdown」支持选择 `draft.md`。现场已确认匿名编辑器可以粘贴 `draft.txt` 的中文正文。HTML 文件导入需要等级 VIP 4。账号内上传、保存和样式保留的验收步骤见 [秀米接入说明](XIUMI.md)。导入后逐项校对摘要、正文层级、文字链接、手机预览与图片授权。
 
 ## 信源和维护
 

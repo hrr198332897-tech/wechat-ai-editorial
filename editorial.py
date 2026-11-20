@@ -16,14 +16,14 @@ from models import Item
 
 
 SHANGHAI = timezone(timedelta(hours=8))
-PRIMARY = {"official", "repository", "research", "government", "policy"}
+PRIMARY = {"official", "repository", "research", "government", "policy", "discovery"}
 TRACKING = {"fbclid", "gclid", "mc_cid", "mc_eid", "trk", "f_link_type", "flow_extra"}
 RELEASE = r"\b(?:release[sd]?|launch(?:ed|es)?|introduc\w*|debut\w*|available)\b|发布|上线|开放|推出"
 VERSION = r"\bv?\d+\.\d+(?:\.\d+)?(?:[-.]?(?:rc|beta|alpha)\.?\d*)?\b"
 MODEL = (
-    r"(?:gemini|gpt|claude|qwen|deepseek|kimi|glm|llama|seedance|seedream|seed|o[134]|gemma)"
+    r"(?:gemini|genie|gpt|claude|qwen|deepseek|kimi|glm|llama|seedance|seedream|seed|o[134]|gemma)"
     r"[-\s]*(?:opus|sonnet|haiku|v|k|r)?[-\s]*\d+(?:\.\d+){0,2}"
-    r"(?:[-\s]*(?:opus|sonnet|haiku|flash[-\s]*lite|flash|pro|ultra|mini|max|nano|lite|turbo|preview|thinking)\b)*"
+    r"(?:[-\s]*(?:opus|sonnet|haiku|flash[-\s]*lite|flash|pro|ultra|mini|max|nano|lite|turbo|preview|thinking|neon|hydrogen)\b)*"
     r"(?:[-\s]*\d+(?:\.\d+)?[bm](?:[-\s]*a\d+(?:\.\d+)?[bm])?\b)?"
 )
 
@@ -33,7 +33,8 @@ def canonical(url):
     query = [(k, v) for k, v in parse_qsl(parts.query, keep_blank_values=True)
              if not k.lower().startswith("utm_") and k.lower() not in TRACKING]
     path = parts.path.rstrip("/") or "/"
-    fragment = parts.fragment if re.search(r"changelog|release-note|announcement", path, re.I) else ""
+    fragment = parts.fragment if (":~:text=" in parts.fragment or
+                                  re.search(r"changelog|release-note|announcement", path, re.I)) else ""
     return urlunsplit((parts.scheme.lower(), parts.netloc.lower(), path, urlencode(sorted(query)), fragment))
 
 
@@ -86,7 +87,13 @@ def matches(left, right):
         tails = [re.sub(MODEL, "", item.title, flags=re.I) for item in (left, right)]
         channels = [set(re.findall(r"\b(?:api|vertex|android|ios|workspace|cloud|enterprise|app|preview)\b",
                                    tail.lower())) for tail in tails]
-        return channels[0] == channels[1]
+        if channels[0] != channels[1]:
+            return False
+        stop = {"google", "deepmind", "openai", "meta", "anthropic", "introducing", "announcing",
+                "introduces", "releases", "launches", "release", "launch", "new", "now", "available",
+                "is", "its", "the", "a", "an", "in", "with", "on", "for", "via"}
+        remainder = [set(clean(tail).split()) - stop for tail in tails]
+        return remainder[0] == remainder[1]
     if a == b and len(a) >= 14:
         return True
     return min(len(a), len(b)) >= 22 and fuzz.ratio(a, b) >= 92
@@ -101,13 +108,15 @@ def classify(item, evidence):
         return "技术研究"
     if re.search(MODEL, title, re.I) and family(title) in {"release", ""} and item.kind != "repository":
         return "模型发布"
+    if item.kind == "discovery":
+        return "开源项目"
     if item.kind == "repository":
         return "工具更新" if "/releases/" in item.url else "开源项目"
     if re.search(r"\b(?:gpu|chip|inference infrastructure|data center)\b|芯片|算力|数据中心", title):
         return "算力与基建"
     if re.search(r"case study|production deployment|真实应用|案例|试点", context):
         return "真实应用"
-    if re.search(r"\b(?:api|sdk|tool|agent|integration|coding|codex)\b|工具|智能体|接口", title):
+    if re.search(r"\b(?:api|sdk|cli|tool|agent|integration|coding|codex|zcode)\b|工具|智能体|接口", title):
         return "工具更新"
     return "产业动态"
 
@@ -118,7 +127,7 @@ def display_time(value):
 
 def rank(pair):
     item, evidence = pair
-    ranks = {"government": 4, "policy": 4, "official": 4, "repository": 3, "research": 3}
+    ranks = {"government": 4, "policy": 4, "official": 4, "repository": 3, "research": 3, "discovery": 2}
     return (bool(evidence.get("matched") and item.kind in PRIMARY),
             ranks.get(item.kind, 0), bool(item.published), bool(evidence.get("excerpt")))
 
@@ -128,14 +137,19 @@ def assess(pairs, now):
     primary, evidence = ordered[0]
     verified = primary.kind in PRIMARY and evidence.get("matched", False)
     category = classify(primary, evidence)
-    source_text = f"{primary.title} {evidence.get('excerpt', '')}"
+    source_text = " ".join([primary.title, evidence.get("excerpt", ""), *evidence.get("detail_paragraphs", [])])
     specific = bool(re.search(r"\b(api|sdk|model weights?|open.source|multimodal|memory|latency|"
-                              r"benchmark|gpu|inference|license)\b|模型权重|开源|多模态|推理|合规|许可证",
+                              r"benchmark|gpu|inference|license|voice input|context caching)\b|"
+                              r"模型权重|开源|多模态|推理|合规|许可证|首尾帧|图层|生效|适用范围",
                               source_text, re.I))
     dated = bool(primary.published)
     age = (now - date(primary.published)).total_seconds() / 86400 if dated else 999
     public_action = bool(re.search(RELEASE, primary.title, re.I) or
-                         primary.kind in {"repository", "government", "policy"})
+                         primary.kind in {"repository", "government", "policy"} or
+                         category == "模型发布" and re.search(RELEASE, evidence.get("excerpt", ""), re.I))
+    if category == "模型发布" and public_action and verified:
+        specific = specific or bool(re.search(r"available|access|can use|try (?:it|now)|预约|已开放|可用|可调用",
+                                             source_text, re.I))
     topical = category != "产业动态" or bool(re.search(r"\b(?:ai|llm|agent)\b|人工智能|模型", source_text, re.I))
     low_signal = bool(re.search(r"\b(?:webinar|newsletter|roadshow|stock price|initial public offering|"
                                 r"sponsorship|weekly roundup|bug fixes only)\b|周报|活动回顾|报名|营销活动",
@@ -152,7 +166,10 @@ def assess(pairs, now):
         "新颖性": 5 if -0.5 <= age <= 3 and public_action else 4 if -0.5 <= age <= 14 else 2 if 14 < age <= 45 else 0,
     }
     score = sum(dimensions.values())
-    eligible = verified and dated and -0.5 <= age <= 45 and topical and not low_signal
+    prerelease = primary.kind == "repository" and bool(re.search(r"nightly|canary|pre.?release|preview|[.-]rc\d*\b",
+                                                               primary.title + " " + primary.url, re.I))
+    eligible = (verified and dated and -0.5 <= age <= 45 and topical and not low_signal
+                and not prerelease and primary.kind != "discovery")
     grade = "D"
     if verified and not low_signal:
         grade = "C"
@@ -244,6 +261,10 @@ class Store:
                     old_item, old_evidence = groups[event][key]
                     if old_evidence.get("matched") and not evidence.get("matched"):
                         item, evidence = old_item, old_evidence
+                    elif (old_evidence.get("previous") and not evidence.get("previous")
+                          and old_item.title == item.title
+                          and old_evidence.get("excerpt") == evidence.get("excerpt")):
+                        evidence = evidence | {"previous": old_evidence["previous"]}
                 else:
                     metrics["merged"] += 1
                 metrics["new_items"] += key not in groups[event]
@@ -261,7 +282,8 @@ class Store:
                 lead = card["sources"][0]
                 proof = lead["evidence"]
                 material = [canonical(lead["url"]), lead["title"], lead["published"], proof.get("matched"),
-                            proof.get("excerpt"), card["previous"], card["grade"] in {"A", "B"}]
+                            proof.get("excerpt"), proof.get("detail_paragraphs"), card["previous"],
+                            card["grade"] in {"A", "B"}]
                 fingerprint = hashlib.sha256(json.dumps(material, sort_keys=True).encode()).hexdigest()
                 before = self.db.execute("SELECT status, fingerprint FROM events WHERE id=?", (event,)).fetchone()
                 if (card["grade"] in {"A", "B"} and before["fingerprint"] != fingerprint
@@ -351,7 +373,9 @@ def render_card(card):
         "", f"原始链接　{lead['url']}", "", "## 核心变化", "", text.get("change") or text["abstract"],
         "", "## 与此前相比", "", baseline_text, "", "## 一手来源已确认", "",
         *("- " + fact for fact in card["facts"]), "", "## 厂商或论文作者的说法", "",
-        card["claims"], "", excerpt, "", "## 第三方观点或报道线索", "",
+        card["claims"], "", excerpt, "",
+        *("- " + passage for passage in lead["evidence"].get("detail_paragraphs", [])),
+        "", "## 第三方观点或报道线索", "",
         *("- " + entry for entry in (card["third_party"] or ["本轮未检得第三方观点。"])),
         "", "## 待核实与风险", "",
         "按原文核对可用地区、价格、版本、许可证及测试条件。性能或实际收益须有独立证据。",

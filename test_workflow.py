@@ -37,12 +37,18 @@ class WorkflowTests(unittest.TestCase):
             item("Introducing Qwen 3.5-9B", "https://example.com/9b"),
             item("Introducing Qwen 3.5-27B", "https://example.com/27b"),
         ))
+        self.assertFalse(matches(
+            item("Gemini 3.5 Flash launches native audio support", "https://example.com/audio"),
+            item("Gemini 3.5 Flash launches new vision support", "https://example.com/vision"),
+        ))
         self.assertFalse(matches(a, item("Introducing Gemini 3.5 Flash", "https://example.com/old",
                                         published=(NOW - timedelta(days=30)).isoformat())))
         self.assertEqual(canonical("https://EXAMPLE.com/a/?utm_source=test&id=2#x"),
                          "https://example.com/a?id=2")
         self.assertNotEqual(canonical("https://example.com/changelog#2026-11"),
                             canonical("https://example.com/changelog#2026-10"))
+        self.assertNotEqual(canonical("https://example.com/model-release#202611:~:text=seedream"),
+                            canonical("https://example.com/model-release#202611:~:text=seedance"))
 
     def test_releases_do_not_merge_across_products(self):
         a = item("v1.10.2", "https://github.com/org/one/releases/tag/v1.10.2",
@@ -77,6 +83,15 @@ class WorkflowTests(unittest.TestCase):
         result = extract_feed(source, "https://example.com/feed", {}, raw)
         self.assertEqual(result[0].url, "https://example.com/r/1")
         self.assertTrue(result[0].published.startswith("2026-11-19"))
+
+    def test_public_named_model_release_can_rank_a_but_nightlies_stay_archived(self):
+        a = item("Introducing Gemini 4 Neon", "https://example.com/neon",
+                 summary="")
+        ev = dict(matched=True, url=a.url, title=a.title, excerpt="Gemini 4 Neon is now available in the Gemini app.")
+        self.assertEqual(assess([(a, ev)], NOW)["grade"], "A")
+        b = item("Release v2.0.0-nightly", "https://github.com/org/tool/releases/tag/v2.0.0-nightly",
+                 kind="repository", subject="Tool")
+        self.assertEqual(assess([(b, ev | {"excerpt": "Adds a public API for local inference."})], NOW)["grade"], "C")
 
     def test_persistence_and_review_gate(self):
         a = item("Introducing Gemini 3.5 Flash", "https://example.com/a")
