@@ -46,6 +46,8 @@ python -m venv .venv
 
 先读底稿并补齐卡片待核项。秀米图文的「更多 → 导入Word/Excel/Markdown」支持选择 `draft.md`。现场已确认匿名编辑器可以粘贴 `draft.txt` 的中文正文。HTML 文件导入需要等级 VIP 4。账号内上传、保存和样式保留的验收步骤见 [秀米接入说明](XIUMI.md)。导入后逐项校对摘要、正文层级、文字链接、手机预览与图片授权。
 
+日常撰稿和审稿由本地 WeWrite 接手。将已批准的选题 ID 交给 Codex，即可根据原始材料撰写并输出本地成稿，进入秀米人工排版。 [WeWrite 使用说明](WEWRITE.md)
+
 ## 信源和维护
 
 - `sources.json` 是信源清单。新增来源前先核对官方归属、最新条目、页面抓取条件与响应内容，再记录 GitHub 先例。公开网页改版时先看 `status`，修正该源后重试。
@@ -54,4 +56,4 @@ python -m venv .venv
 - 要定时采集，可在 Windows 任务计划程序配置同一个绝对解释器和脚本路径，参数为 `-X utf8 <脚本路径> run`，通过本地报告读取结果。
 - 使用 `python -X utf8 -m unittest -v` 运行本地回归测试。完整在线流程依赖实际信源网络。
 
-延伸资料见 [架构与扩展](ARCHITECTURE.md)、[GitHub 开源调研](RESEARCH.md)。
+延伸资料见 [架构与扩展](ARCHITECTURE.md)、[GitHub 开源调研](RESEARCH.md) 和 [采集项目部署评估](SOURCE-DEPLOYMENT.md)。

@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "decision": "pass",
+  "pass_number": 1,
+  "publishable": true,
+  "dimensions": {
+    "accuracy": 4.0,
+    "viewpoint": 4.0,
+    "usefulness": 5.0,
+    "voice": 4.0,
+    "readability": 4.0
+  },
+  "dimension_average": 4.2,
+  "blockers": [],
+  "major_issues": [],
+  "notes": "原稿围绕升级核查。修订稿把读者任务收窄到透明图合成，给出可执行的对照方法，并保留实际导出格式和返工量待验证的条件。",
+  "draft_chars": 654,
+  "final_chars": 625,
+  "edit_ratio": 0.7138,
+  "structure_changed": true
+}
