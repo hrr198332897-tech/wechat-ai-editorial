@@ -1,5 +1,9 @@
 # 中文写作编辑
 
+正式公众号稿按[完整工作流](.agents/skills/wechat-ai-workflow/SKILL.md)执行。最需要复核的是首屏有没有兑现标题、正文有没有让读者看见差距，以及哪些句子读起来像套话。按[写作方法](.agents/skills/wechat-ai-workflow/references/editorial.md#写作方法)起稿，按[去 AI 感](.agents/skills/wechat-ai-workflow/references/editorial.md#去-ai-感)逐段改稿，审读通过后再交秀米。
+
+## 自动底稿
+
 写作模块以原始材料、文章类别和选题对象生成标题、摘要、提纲与底稿。审核前只生成选题卡所需文案。审核通过后才随导出生成可编辑底稿。该模块使用本地规则，无需账户或模型密钥。
 
 ## 标题如何取材
