@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "decision": "pass",
+  "pass_number": 1,
+  "publishable": true,
+  "dimensions": {
+    "accuracy": 4.0,
+    "viewpoint": 4.0,
+    "usefulness": 4.0,
+    "voice": 4.0,
+    "readability": 5.0
+  },
+  "dimension_average": 4.2,
+  "blockers": [],
+  "major_issues": [],
+  "notes": "删掉解释正文结构的套话，把测试问题讲成代码和报错。核对两项成绩的版本与顺序，明确宣传图片为概念图。文章使用厂商材料，未独立复测。",
+  "draft_chars": 1948,
+  "final_chars": 2017,
+  "edit_ratio": 0.0265,
+  "structure_changed": false
+}
