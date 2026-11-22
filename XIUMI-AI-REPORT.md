@@ -1,5 +1,11 @@
 # 秀米 AI 接入搜索与实测
 
+## 2026 年 11 月 22 日 · 批量交接
+
+复查 [GitHub xiumi 主题](https://github.com/topics/xiumi)。[ll-xiumi](https://github.com/zongmoseu/ll-xiumi) 的整篇排版与一次导入思路、[all-to-xiumi](https://github.com/hanselhan23/all-to-xiumi) 的原生模块和重开检验、[dsh-xiumi](https://github.com/oobitoooo/dsh-xiumi) 的批量换图与保存后核对，均可作为流程先例。依赖扩展、独立浏览器登录或编辑器内部结构的代码未引入。官方域名 MCP 再次实测初始化返回 401，OAuth 元数据返回 200。网页版已登录的会话与 MCP 的单独授权应分别核对。
+
+本项目用 [秀米官方文档导入](https://www.sohu.com/a/143836826_330573) 承接一键 Word 图文，HTML 导入可用时以批量上传得到的图片链接生成整篇可导入稿。11 月 22 日在已登录账号导入 Anthropic 的 Word 正文，两张图均转存到秀米，发现 Word 会清除链接。改用本地导出时预写可见网址，避免保存前再逐段补录。操作、适用条件和验收见 [批量交接说明](XIUMI.md)。
+
 2026 年 11 月 20 日。按用户提供的 GitHub `xiumi` 主题搜索，按最近更新排序的页面本轮显示 16 个公开仓库。结合「AI 直接接入秀米」这条线索，重点核对了 MCP、Codex 草稿助手和 AI 排版导入插件。 [GitHub xiumi 主题页](https://github.com/topics/xiumi?o=desc&s=updated)
 
 ## GitHub 候选

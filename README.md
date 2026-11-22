@@ -50,7 +50,7 @@ python -m venv .venv
 
 批准后，`exports/topic-<ID>/` 包含选题卡 `card.md`、结构化证据 `card.json`、底稿 `draft.md`、`draft.txt`、浏览器预览 `draft.html`、内联样式片段 `xiumi-fragment.html` 以及配图建议和权利记录 `images.md`。
 
-先读底稿并补齐卡片待核项。秀米图文的「更多 → 导入Word/Excel/Markdown」支持选择 `draft.md`。现场已确认匿名编辑器可以粘贴 `draft.txt` 的中文正文。HTML 文件导入需要等级 VIP 4。账号内上传、保存和样式保留的验收步骤见 [秀米接入说明](XIUMI.md)。导入后逐项校对摘要、正文层级、文字链接、手机预览与图片授权。
+先读底稿并补齐待核项。成稿和图片齐备后，用 `xiumi_handoff.py` 一次整理元数据、图片清单、预览和导入包。支持 HTML 导入的账号可批量传图后整篇导入，其他账号可以单次导入图文 Word。保存后重开核对正文、图片和出处。 [秀米交接步骤](XIUMI.md)
 
 日常撰稿和审稿由本地 WeWrite 接手。将已批准的选题 ID 交给 Codex，即可根据原始材料撰写并输出本地成稿，进入秀米人工排版。 [WeWrite 使用说明](WEWRITE.md)
 

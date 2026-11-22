@@ -13,7 +13,7 @@ description: 用于本项目的 AI 资讯公众号工作流，包括找热点、
 | 2. 写作和审稿 | 读 `wewrite-write` 与 `wewrite-review` 的项目内 Skill。写稿可使用用户点名的 `generate_article` 原始提示模板。另读本机 `wechat-article-pipeline` 的写作、检查说明，选用其适用环节。 | 中文标题、摘要、正文及独立核查记录。 |
 | 2a. 起标题 | 有核对过的正文或事实卡后，调用同仓库的 [ai-title-generator](../ai-title-generator/SKILL.md) 的 A 档。科技热点可用其高密度数字与反差路径。留一个主标题，备选按需交付。 | 一条正文能兑现的标题；适用窗口和数字口径在首屏交代。 |
 | 3. 配图 | 读 `wechat-article-pipeline/references/image-production.md` 并参考其图位规划。原创场景图用 Codex 的 `imagegen` Skill，数字用经核对的数据制图。先决定每个图位解释什么，再产图。 | 封面、必要的正文图、图注、素材来源或生成记录。 |
-| 4. 秀米交接 | 用 `gzh-content-skill` 的 `design.md` 和 `xiumiHelper.md` 布局，优先复用 `scripts/inject_layout.py`。另读根目录 `XIUMI.md`，在手机宽度核对图片、标题和出处。 | Markdown、可读 HTML、图文件、独立的标题摘要。按明确授权范围进入秀米。 |
+| 4. 秀米交接 | 按根目录 [XIUMI.md](../../../XIUMI.md) 运行 `xiumi_handoff.py`。一次读取成稿和配图，按图清单批量上传，再将整篇内联 HTML 交给秀米官方导入。HTML 导入不可用时改用同批生成的 Word 包。 | 标题／摘要／作者、图片清单、整篇 HTML 及 Word 包。授权范围内保存并重开，核对图片、正文和手机预览。 |
 | 5. 复盘与同步 | 读根目录 `EDITORIAL-HISTORY.md`。将明确反馈记入日志，将可复用规则更新到编辑准则，并与稿件或样例一起提交。 | 有日期、有案例、有验收依据的 Git 提交。 |
 
 ## 运行约定
