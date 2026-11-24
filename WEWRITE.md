@@ -53,4 +53,5 @@ target.write_text("aigc_footer: false\n" + theme.read_text(encoding="utf-8"), en
 - 一次性接通由公众号管理员处理。确认账号拥有草稿和素材接口权限，按平台后台配置出口 IP 白名单及本机 WeWrite 的公众号 AppID、AppSecret。凭据存本地配置，作者字段用运营者指定的署名。 [官方草稿接口](https://developers.weixin.qq.com/doc/subscription/api/draftbox/draftmanage/api_draft_add.html)
 - 复用已安装的 WeWrite 4.2.0。该版本的 `wewrite publish <article.md> --cover <cover.jpg> --author <署名> --digest <摘要>` 把本地正文图片上传至微信、以永久素材保存封面，再调用 `draft/add` 创建草稿。用返回的稿件 ID 调用 `draft/get` 核对标题、摘要和正文图。打开相同草稿后检查封面裁切、段距和手机预览。 [WeWrite v4.2.0](https://github.com/imraywang/wewrite/releases/tag/v4.2.0)
 - 2026-11-24 用新版英伟达稿、四张正文图和封面，在 Windows 模拟了从取凭据到稿件回读的链路。接口使用模拟返回。已安装的另一套稿件脚本在该机原生 Windows 因缺少 `fcntl` 无法启动。
-- 账号接口未接通时，交付可在浏览器打开的公众号富文本预览。从预览一次复制图文正文，标题与摘要各有复制按钮。原始素材也随包保存，便于在最终编辑页调整。
+- 账号接口未接通时，用 `wechat_handoff.py` 生成可在浏览器打开的公众号审稿页。一次复制富文本正文，标题、作者、摘要和原文链接有独立复制按钮，封面可以单独下载。 [可重建样例](examples/nvidia-2026-11-24/run.md)
+- 4.2.0 的草稿命令可提交封面素材，当前没有「原文链接」参数。使用此命令时，把已核实的公开链接随审稿页交给运营者，在最终编辑页补入并点开核对。封面和正文首图分别检查，封面以裁切预览为准。

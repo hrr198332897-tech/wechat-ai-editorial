@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>$title · 微信公众号审稿</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #edf2ee; color: #14271d; font-family: sans-serif; }
+  main { max-width: 690px; margin: auto; padding: 16px; }
+  header, article { padding: 20px 24px; background: white; border-radius: 14px; }
+  h1 { margin: 0 0 20px; font-size: 24px; line-height: 1.43; }
+  label { display: block; margin: 10px 0 6px; font-size: 13px; color: #485e51; }
+  .field { display: flex; gap: 6px; }
+  input { flex: 1; min-width: 0; padding: 8px; border: 1px solid #bfcec4; border-radius: 6px; font: inherit; }
+  button { padding: 8px 10px; border: 1px solid #9caea2; border-radius: 7px; background: white; color: #183a29; font: inherit; white-space: nowrap; cursor: pointer; }
+  #copy-body { margin-top: 14px; background: #20563b; border-color: #20563b; color: white; }
+  .cover-row, #status { font-size: 13px; }
+  .cover-row { margin-top: 12px; }
+  .cover-row a { color: #20563b; }
+  #status { margin-left: 9px; }
+  article { margin-top: 12px; overflow-wrap: break-word; }
+  article img { display: block; width: 100%; max-width: 100%; height: auto; }
+  article pre { overflow-x: auto; }
+</style>
+<main>
+  <header>
+    <h1>$title</h1>
+    <label for="title">标题</label>
+    <div class="field"><input id="title" aria-label="标题" value="$title" readonly><button data-copy="title">复制标题</button></div>
+    <label for="digest">摘要</label>
+    <div class="field"><input id="digest" aria-label="摘要" value="$summary" readonly><button data-copy="digest">复制摘要</button></div>
+    <label for="author">作者</label>
+    <div class="field"><input id="author" aria-label="作者" value="$author" readonly><button data-copy="author">复制作者</button></div>
+    <label for="source-url">原文链接</label>
+    <div class="field"><input id="source-url" aria-label="原文链接" value="$source_url" readonly><button data-copy="source-url">复制原文链接</button></div>
+    <div class="cover-row"><a id="download-cover" href="$cover_data" download="$cover_name">下载公众号封面</a></div>
+    <button id="copy-body">复制公众号正文</button><span id="status" role="status"></span>
+  </header>
+  <article id="body">$body</article>
+</main>
+<script>
+  const statusLine = document.querySelector('#status');
+  const articleBody = document.querySelector('#body');
+
+  function copySelection() {
+    try {
+      return document.execCommand('copy');
+    } catch {
+      return false;
+    }
+  }
+
+  document.querySelector('#copy-body').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.write([new ClipboardItem({
+        'text/html': new Blob([articleBody.innerHTML], {type: 'text/html'}),
+        'text/plain': new Blob([articleBody.innerText], {type: 'text/plain'})
+      })]);
+      statusLine.textContent = '正文已复制';
+    } catch {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(articleBody);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      if (copySelection()) {
+        selection.removeAllRanges();
+        statusLine.textContent = '正文已复制';
+      } else {
+        statusLine.textContent = '已选中正文，请按 Ctrl+C';
+      }
+    }
+  });
+
+  for (const button of document.querySelectorAll('[data-copy]')) {
+    const field = document.getElementById(button.dataset.copy);
+    button.disabled = !field.value;
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(field.value);
+        statusLine.textContent = '已复制' + field.getAttribute('aria-label');
+      } catch {
+        field.select();
+        statusLine.textContent = copySelection() ? '已复制' : '已选中，请按 Ctrl+C';
+      }
+    });
+  }
+</script>
+</html>

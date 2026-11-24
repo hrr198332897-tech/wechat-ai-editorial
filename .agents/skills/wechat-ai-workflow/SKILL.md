@@ -1,34 +1,34 @@
 ---
 name: wechat-ai-workflow
-description: 本项目的 AI 资讯公众号工作流，包含搜热点、核查原文、写出读者爱看的稿件、去 AI 腔审稿、配图、秀米交接和反馈复用。
+description: 用于信号之外的 AI 资讯选题、核查、公众号成稿、配图、审稿、草稿交接及跨 Agent 接续。也适用于只改标题、正文或图片，或从已有稿件继续。
 ---
 
-# AI 资讯公众号工作流
+# 信号之外公众号工作流
 
-从项目根目录执行。每篇稿用独立目录保存，正文以 Markdown 为准。先读 [编辑准则](references/editorial.md)。只做单个环节时可从已有、已核对的产物接续。完整流程按下表交接，写作是主要质量关，成稿通过审读后进入排版。
+在仓库根目录调用 `$wechat-ai-workflow`。没有 Skill 发现功能的 Agent 直接读本文件，按相对路径打开所需模块。开始前读 [执行与交接](references/runbook.md)、[编辑准则](references/editorial.md) 和最新 [编辑反馈](../../../EDITORIAL-HISTORY.md)。所有步骤可由同一个 Agent 完成，也可按下表分工。
 
-| 环节 | 调用 | 交付 |
+## 从用户要求选起点
+
+- 用户要找今日热点时，先采集核查，给三张选题简卡，由用户选一条再写。默认范围是北京时间最近三个自然日，含当天截至采集时。
+- 用户明确选题并要求写作时，从该题的事实核查开始，已有同一选题卡就读回并记录已获批准的范围。已有稿件时按稿件目录和进度记录续做。
+- 单独改稿、起标题、换图、检查或交接时，只做指定环节及其必要核对。收到新反馈后在现稿落实，保留旧稿和版本记录。
+
+## 环节与交付
+
+| 环节 | 调用与动作 | 给下一步的材料 |
 | --- | --- | --- |
-| 1. 搜热点和素材 | 按 `wewrite-topic` 用 `radar.py`、热榜和定向搜索找线索。按用户指定时间窗收录；没有另定时间窗的日常选题用北京时间最近三个自然日（含当天截至采集时）。同步找能说明差异的官方演示、原图和可对比数据。 | 带时间和原始链接的候选、用图候选。 |
-| 1a. 提取、核查和选题 | 合并同一进展，回查官方公告、原始报告、模型卡或作者资料。提取实际变化、适用条件、可比基线，标出厂商宣称和待核信息。按读者能看见或用上的变化排序，先给用户 3 个候选，等用户选定 1 个再写。 | 3 张简短选题卡。每张交代发生了什么、为什么值得读、打算怎么写和用什么画面，并附一手来源。 |
-| 2. 写读者愿意看下去的稿 | 按 [写作方法](references/editorial.md#写作方法) 建立 WeWrite 的任务书和主张表，再从[训练样本归纳](references/training-patterns.md)中选择与事件相符的结构。使用 `generate_article` 原始模板，按 `gzh-content-skill` 选文风，再按 `wewrite-write` 起稿。先用真实动作、场景和同口径数字交代变化，续篇从新事实写起。 | 中文初稿，首屏有可核查的变化，每节有新发现，附独立主张表。 |
-| 2a. 起标题 | 用已核实的事实卡和初稿调用 [ai-title-generator](../ai-title-generator/SKILL.md) 的 A 档，选能让读者想点开、正文首屏也能兑现的角度。数字、范围和口径随标题一起核对。 | 主标题、摘要，备选按需交付。 |
-| 2b. 去 AI 感和复核 | 按 [去 AI 感](references/editorial.md#去-ai-感) 逐段改正文，再按 `wewrite-review` 和本机 `wechat-article-pipeline` 的检查说明复核。用 `wewrite content-eval` 留审稿记录。 | 定稿及审稿记录，保留关键数据的来源与限定条件。 |
-| 3. 配图 | 读 `wechat-article-pipeline/references/image-production.md` 并参考其图位规划。正文优先采用可用的官方原图、图表截图和原视频，紧邻素材标出处。封面按文章核心反差设计，缩到手机列表尺寸仍能看清。官方素材缺少所需画面时，再用原创图或经核对的数据图补足。 | 封面、必要的正文图和视频、图注、原始来源或生成记录。 |
-| 4. 本地校验与秀米交接 | 使用已安装的 [wechat-claw 本地工具](../../../WECHAT-CLAW.md)校验和渲染结构化文章。涉及视频和图文交接时，按 [XIUMI.md](../../../XIUMI.md) 运行 `xiumi_handoff.py` 生成可导入包。 | 标题、摘要、图片清单、HTML 及 Word 包。授权范围内保存草稿并重开核对。 |
-| 5. 复盘与同步 | 读根目录 `EDITORIAL-HISTORY.md`。将明确反馈记入日志，将可复用规则更新到编辑准则，并与稿件或样例一起提交。 | 有日期、有案例、有验收依据的 Git 提交。 |
+| 采集、核查、选题 | [wewrite-topic](../wewrite-topic/SKILL.md)、`radar.py` 和定向搜索。合并同一事件，分清原始出处、厂商说法、编辑推断和未核信息，同步找官方素材。 | 三张简卡或指定题的事实卡、原始链接和素材候选。 |
+| 写作 | 读 [写作和风格](references/editorial.md#写作方法) 与 [训练样本](references/training-patterns.md)。按 `generate_article` 建结构、`gzh-content-skill` 选文风、[wewrite-write](../wewrite-write/SKILL.md) 起稿。 | 读者与角度、主张和出处、中文初稿。 |
+| 标题和审稿 | [ai-title-generator](../ai-title-generator/SKILL.md) 用公众号档，核对题面承诺与首屏。按 [wewrite-review](../wewrite-review/SKILL.md)、[去 AI 感](references/editorial.md#去-ai-感) 和本机 `wechat-article-pipeline` 的审稿规范实改。 | `article.md`、标题摘要、审稿报告、独立核查资料。 |
+| 素材与版式 | 依编辑准则和 `wechat-article-pipeline/references/image-production.md` 做图位规划。优先用可用的官方图表及视频。需要本地结构校验时用 [wechat-claw](../../../WECHAT-CLAW.md)。 | 封面、正文图或视频、图注、有权使用的依据及素材顺序。 |
+| 交接和验收 | 默认准备微信富文本审稿页。获得目标账号授权且接口已配置时可到官方草稿箱。用户选择秀米时走 [秀米交接](../../../XIUMI.md)。各路线按 [执行与交接](references/runbook.md#交接到微信或秀米) 验收。 | 自包含审稿页、原文链接、独立封面、交接清单，或对应账号的已回读草稿。 |
+| 复盘和保存 | 记录反馈、实际执行的工具和验收证据。可复用规则写回编辑准则，阶段结果写入 [历史与恢复](../../../EDITORIAL-HISTORY.md)。 | 可独立接续的稿件目录及更新后的流程。 |
 
-## 写作、标题和配图训练
+正文以稿件目录中的 `article.md` 为准。正文的一级标题在交接时作为独立字段，摘要、作者、封面、阅读原文也各自保留。运营者最终审看并发布。只有本次获得的授权才允许账号写入，自动化的最远步骤是创建或修改已明确指定的草稿。
 
-- 用户选题后，以同一组核实材料交付一套练习稿。正文单独提供，标题给一条主标题和两个不同切入角度的备选。配图交付开篇封面和支撑正文的关键图，注明图位、图注和来源。概念图、官方演示画面和数据图各自标明性质。
-- 收到反馈后，直接修改被点到的标题、段落或图，保留首稿与修订稿供比较。记录用户确认的偏好，写明适用场景，再纳入下一篇的编辑准则。
+## 工具来源与兼容
 
-## 运行约定
-
-- 人工批准后才写正式稿。用户明确指定题目并要求撰稿时，本次撰稿已获授权。若对应选题已在 SQLite，按实际授权记录审核。探索候选和演练继续隔离。文章发布由运营者人工完成。
-- 下游 Skill 以本项目授权范围运行。默认交付本地稿件和预览。秀米账号保存、第三方草稿箱和平台操作各按用户的明确指示处理。
-- WeWrite 版本、安装与主题见根目录 `WEWRITE.md`。其 `--mode draft` 路径用于本地编辑。交付时写明哪些工具确实运行、哪些仅使用了提示或规则。
-- [generate_article 的原始提示模板](https://github.com/gzlliyu/generate_article/blob/ff6179856139d737732920bf88dd9e60170f8d9f/generate_article.py) 接收主题、读者、篇幅、大纲和资料。默认由 Codex 按模板写。运行上游 Python 另外需要可用的模型 API 凭据和授权。
-- [ai-title-generator 锁定版本](https://github.com/HeyClioo/ai-title-generator/tree/301bffcf0cfa6171b66b30ab445d2624cda3d1d6) 为 MIT 许可的提示型 Skill，随仓库提供，无运行时依赖。
-- [gzh-content-skill 锁定版本](https://github.com/songlitong521-oss/gzh-content-skill/tree/680f12c5033d3cced7a1a0b39c68df1f545f6af3) 提供 `write_style.md`（风格库）和 `writer.md`（撰文步骤）。写稿只需读这两份材料。排版有需要才运行本地排版代码。
-- [wechat-article-pipeline v1.9.7 锁定版本](https://github.com/jhwreal/wechat-article-pipeline-skill/tree/71ca7086ef22f556e4bb22f31f6a5a5b58fccbcc/wechat-article-pipeline) 可按上游 README 安装 `wechat-article-pipeline/`。Windows 原生 Python 当前缺少其打包脚本导入的 `fcntl`。该环境用上游写作和视觉规范，HTML 交给已验证的 GZH 排版路径。报告实际采用的路径。
+- WeWrite 固定 4.2.0。使用仓库虚拟环境和 [本地设置](../../../WEWRITE.md)。本地写作使用 `--mode draft --visual-mode none`，接续时绑定明确任务 ID。
+- [generate_article 原始模板](https://github.com/gzlliyu/generate_article/blob/ff6179856139d737732920bf88dd9e60170f8d9f/generate_article.py) 由当前 Agent 按模板执行。运行上游 Python 涉及已授权的模型配置时才执行。
+- [gzh-content-skill 锁定版](https://github.com/songlitong521-oss/gzh-content-skill/tree/680f12c5033d3cced7a1a0b39c68df1f545f6af3) 撰稿参考 `write_style.md`、`writer.md`。仓库内 [ai-title-generator](https://github.com/HeyClioo/ai-title-generator/tree/301bffcf0cfa6171b66b30ab445d2624cda3d1d6) 为 MIT 许可，无运行时依赖。
+- [wechat-article-pipeline v1.9.7 锁定版](https://github.com/jhwreal/wechat-article-pipeline-skill/tree/71ca7086ef22f556e4bb22f31f6a5a5b58fccbcc/wechat-article-pipeline) 提供审核、配图和交付规范。原生 Windows 实测其上游打包脚本缺少 `fcntl`，微信富文本交接使用仓库的 `wechat_handoff.py`。

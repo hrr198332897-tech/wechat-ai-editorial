@@ -1,0 +1,22 @@
+{
+  "mode": "offline_simulation",
+  "network": false,
+  "real_wechat_draft": false,
+  "title": "离任11天，黄仁勋全票回归！英伟达收涨31.48%",
+  "article_sha256": "a992466308d42203226ad76f089d6e974d41f99cee42e753f53a0bbba704c52e",
+  "images": 4,
+  "cover_asset": "images/cover.jpg",
+  "sequence": [
+    "/cgi-bin/token",
+    "/cgi-bin/media/uploadimg",
+    "/cgi-bin/media/uploadimg",
+    "/cgi-bin/media/uploadimg",
+    "/cgi-bin/media/uploadimg",
+    "/cgi-bin/material/add_material",
+    "/cgi-bin/draft/add",
+    "/cgi-bin/draft/get"
+  ],
+  "verify_draft": true,
+  "digest_utf8_bytes": 89,
+  "body_html_utf8_bytes": 13022
+}

@@ -1,12 +1,12 @@
 # AI 全球情报与公众号选题工作流
 
-这个本地工具按需采集海内外 AI 一手来源，回查原文，合并重复事件，生成可审阅的中文选题卡。你批准后，工具才生成写作底稿和秀米交接素材。日常操作在本机完成，只访问配置中的公开来源。
+这个工作流采集海内外 AI 一手来源，回查原文，合并重复事件，生成中文选题卡。选题批准后完成写作、审稿、配图和公众号交接，最后由运营者在公众号编辑页修改、预览和发布。
 
 ## 在 Codex 中调用
 
-从私有 GitHub 仓库克隆项目后，在仓库根目录开启新的 Codex 对话。可以说「用 $wechat-ai-workflow 做一篇已批准的 AI 选题，从查资料做到秀米交接」，或「用 $wechat-ai-workflow 把我的这条修改记录进编辑准则」。[流程与 Skill 调用表](.agents/skills/wechat-ai-workflow/SKILL.md) · [编辑准则](.agents/skills/wechat-ai-workflow/references/editorial.md) · [反馈记录与数据恢复](EDITORIAL-HISTORY.md)
+从私有 GitHub 仓库克隆项目后，在仓库根目录开启新对话。可以说「用 $wechat-ai-workflow 跑今天的公众号，从最近三个自然日找三个选题」，或「用 $wechat-ai-workflow 接手这份稿件，做到公众号终审交接」。其他 Agent 从同一目录读 `AGENTS.md`、工作流入口和该稿的继续记录，也能执行同一流程。 [流程入口](.agents/skills/wechat-ai-workflow/SKILL.md) · [交接手册](.agents/skills/wechat-ai-workflow/references/runbook.md) · [编辑准则](.agents/skills/wechat-ai-workflow/references/editorial.md) · [反馈与恢复](EDITORIAL-HISTORY.md)
 
-已完成的端到端范例见 [Anthropic 上市稿](examples/anthropic-ipo-2026-11-20/article.md)及其[制作记录](examples/anthropic-ipo-2026-11-20/production-notes.md)。
+可在本地从终稿重建 [英伟达公众号交接样例](examples/nvidia-2026-11-24/run.md)。秀米验收记录见 [Anthropic 制作记录](examples/anthropic-ipo-2026-11-20/production-notes.md)。
 
 ## 安装和首跑
 
@@ -46,13 +46,13 @@ python -m venv .venv
 
 卡片会显示六维分值、证据原文、核查时间、来源声明和待核项。评分是编辑优先级。厂商声明和论文作者结果保留原始归属，性能对比在核对同版本、同配置和同口径后才能下结论。一手页校验主要验证来源、标题与可用文本。
 
-## 导出和秀米
+## 导出和公众号交接
 
 批准后，`exports/topic-<ID>/` 包含选题卡 `card.md`、结构化证据 `card.json`、底稿 `draft.md`、`draft.txt`、浏览器预览 `draft.html`、内联样式片段 `xiumi-fragment.html` 以及配图建议和权利记录 `images.md`。
 
-先读底稿并补齐待核项。成稿和图片齐备后，用 `xiumi_handoff.py` 一次整理元数据、图片清单、预览和导入包。支持 HTML 导入的账号可批量传图后整篇导入，其他账号可以单次导入图文 Word。保存后重开核对正文、图片和出处。 [秀米交接步骤](XIUMI.md)
+先读底稿、补齐待核项，再用本地 WeWrite 起稿和审稿。成稿及配图齐备后，`wechat_handoff.py` 生成自带图文的审稿页，可一次复制正文，标题、作者、摘要、原文链接与封面单独交接。官方接口已授权并配置时可创建公众号草稿，再回读确认。 [WeWrite 与公众号交接](WEWRITE.md)
 
-日常撰稿和审稿由本地 WeWrite 接手。将已批准的选题 ID 交给 Codex，即可根据原始材料撰写并输出本地成稿，进入秀米人工排版。 [WeWrite 使用说明](WEWRITE.md)
+选择秀米排版时，`xiumi_handoff.py` 生成元数据、图片清单、预览和图文 Word。有 HTML 导入权限的账号可批量传图后整篇导入。保存后重开核对正文和图片。 [秀米交接步骤](XIUMI.md)
 
 ## 信源和维护
 
