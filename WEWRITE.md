@@ -45,3 +45,12 @@ target.write_text("aigc_footer: false\n" + theme.read_text(encoding="utf-8"), en
 使用上轮已隔离批准的豆包样稿。Codex 执笔，WeWrite CLI 建立写作任务和主张的证据登记，根据编辑判断生成审稿 JSON，并生成中文 HTML 预览。写作任务的发布权限为关闭。导出的文章给出了验证透明通道的方法，实际产品复测仍需具备相应账号和素材。
 
 [写作样稿](examples/topic-29/wewrite/article.md) · [审稿记录](examples/topic-29/wewrite/review.json) · [HTML 预览](examples/topic-29/wewrite/preview.html)
+
+## 交给运营者在公众号编辑页终审
+
+正式使用时，通过微信官方草稿接口提交标题、作者、摘要、正文和封面。运营者打开公众号后台的草稿箱，在文章编辑页修改、预览并自行发布。这个环节可跳过秀米。
+
+- 一次性接通由公众号管理员处理。确认账号拥有草稿和素材接口权限，按平台后台配置出口 IP 白名单及本机 WeWrite 的公众号 AppID、AppSecret。凭据存本地配置，作者字段用运营者指定的署名。 [官方草稿接口](https://developers.weixin.qq.com/doc/subscription/api/draftbox/draftmanage/api_draft_add.html)
+- 复用已安装的 WeWrite 4.2.0。该版本的 `wewrite publish <article.md> --cover <cover.jpg> --author <署名> --digest <摘要>` 把本地正文图片上传至微信、以永久素材保存封面，再调用 `draft/add` 创建草稿。用返回的稿件 ID 调用 `draft/get` 核对标题、摘要和正文图。打开相同草稿后检查封面裁切、段距和手机预览。 [WeWrite v4.2.0](https://github.com/imraywang/wewrite/releases/tag/v4.2.0)
+- 2026-11-24 用新版英伟达稿、四张正文图和封面，在 Windows 模拟了从取凭据到稿件回读的链路。接口使用模拟返回。已安装的另一套稿件脚本在该机原生 Windows 因缺少 `fcntl` 无法启动。
+- 账号接口未接通时，交付可在浏览器打开的公众号富文本预览。从预览一次复制图文正文，标题与摘要各有复制按钮。原始素材也随包保存，便于在最终编辑页调整。
