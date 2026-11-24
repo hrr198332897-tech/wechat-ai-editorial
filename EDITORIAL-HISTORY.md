@@ -1,5 +1,10 @@
 # 编辑反馈与恢复
 
+## 2026-11-23 · 十篇训练材料与本地排版
+
+- 根据《10篇文章.docx》和《11-article-analysis.docx》整理五类写法。实际可读为 9 篇全文和 2 个仅存标题的样本。将续篇写新增事实、模型稿放同口径数据和反例、技术稿说明验证状态、图片逐张给任务写入 [训练归纳](.agents/skills/wechat-ai-workflow/references/training-patterns.md)。
+- 部署 [wechat-claw 本地写作和排版环节](WECHAT-CLAW.md)。原工作流的选题审核、秀米交接和人工发布继续执行。
+
 ## 2026-11-22 · Inkling 训练稿的官方素材与封面
 
 - 用户要求优先用官网对比图和官方演示视频，在素材旁标明出处。训练稿使用 DeepSWE v1.1、SWE-bench Pro v2 Hard 的官网图表和飞行演示原视频，正文按图补足对比口径。
