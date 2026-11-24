@@ -1,5 +1,10 @@
 # 编辑反馈与恢复
 
+## 2026-11-24 · 黄仁勋回归稿与图文训练
+
+- 用户认可这篇的说话方式，希望增加内容，句子更精简，手机正文一句一段、句间留空。秀米草稿在原图文内修订，增加数据中心同比对照、Rubin 交付和下季指引。重开检查到 45 处空段、两张图及独立封面，手机预览可读。正式发布由运营者处理。
+- 用户指出样稿妙在加入 X 上人物的评论和第三视角，并把全过程的关键时点、数字和转折做进同一张图。逐张看完 13 处配图，补充原帖用法、过程图的信息结构和图文对应检查至 [编辑准则](.agents/skills/wechat-ai-workflow/references/editorial.md) 与 [案例拆解](.agents/skills/wechat-ai-workflow/references/huang-return-case.md)。
+
 ## 2026-11-23 · 十篇训练材料与本地排版
 
 - 根据《10篇文章.docx》和《11-article-analysis.docx》整理五类写法。实际可读为 9 篇全文和 2 个仅存标题的样本。将续篇写新增事实、模型稿放同口径数据和反例、技术稿说明验证状态、图片逐张给任务写入 [训练归纳](.agents/skills/wechat-ai-workflow/references/training-patterns.md)。
