@@ -5,24 +5,23 @@ description: 用于信号之外的 AI 资讯选题、核查、公众号成稿、
 
 # 信号之外公众号工作流
 
-在仓库根目录调用 `$wechat-ai-workflow`。没有 Skill 发现功能的 Agent 直接读本文件，按相对路径打开所需模块。开始前读 [执行与交接](references/runbook.md)、[编辑准则](references/editorial.md) 和最新 [编辑反馈](../../../EDITORIAL-HISTORY.md)。所有步骤可由同一个 Agent 完成，也可按下表分工。
+每次新稿或续稿先调用 `$wechat-ai-workflow`。没有 Skill 发现功能时直接读本文件。动稿前依次打开 [执行手册](references/runbook.md#每篇执行顺序)、[编辑准则](references/editorial.md)、[写作训练](references/writing-training.md)和最新[编辑反馈](../../../EDITORIAL-HISTORY.md)。接续时再读当前稿件的 `run.md`、正文和核查记录。把本篇适用的偏好、用户已定的题目或路线、正在进行的阶段写入制作记录。
+
+按执行手册顺序推进，依[各阶段反馈规则](references/runbook.md#各阶段怎样听取意见)落实用户意见。每篇验证至少一项实际改进。每轮已落实的反馈、修改和优化都执行 [GitHub 同步](references/runbook.md#每轮同步到-github)，完成后读回远端提交。
 
 ## 从用户要求选起点
 
 - 用户要找今日热点时，先采集核查，给三张选题简卡，由用户选一条再写。默认范围是北京时间最近三个自然日，含当天截至采集时。
-- 用户明确选题并要求写作时，从该题的事实核查开始，已有同一选题卡就读回并记录已获批准的范围。已有稿件时按稿件目录和进度记录续做。
+- 用户明确选题并要求写作时，在开稿检查中记录该题已选定，再进入事实核查。已有同一选题卡就读回。已有稿件时按稿件目录和进度记录续做。
 - 单独改稿、起标题、换图、检查或交接时，只做指定环节及其必要核对。收到新反馈后在现稿落实，保留旧稿和版本记录。
+- 用户要求自主训练写作、找准公众号定位或从范文学习时，从[定位与写作训练](references/writing-training.md)起步。用现有样稿做对照，记录取舍和一次换题材试写。
 
-## 环节与交付
+## 工具索引
 
-| 环节 | 调用与动作 | 给下一步的材料 |
-| --- | --- | --- |
-| 采集、核查、选题 | [wewrite-topic](../wewrite-topic/SKILL.md)、`radar.py` 和定向搜索。合并同一事件，分清原始出处、厂商说法、编辑推断和未核信息，同步找官方素材。 | 三张简卡或指定题的事实卡、原始链接和素材候选。 |
-| 写作 | 读 [写作和风格](references/editorial.md#写作方法) 与 [训练样本](references/training-patterns.md)。按 `generate_article` 建结构、`gzh-content-skill` 选文风、[wewrite-write](../wewrite-write/SKILL.md) 起稿。 | 读者与角度、主张和出处、中文初稿。 |
-| 标题和审稿 | [ai-title-generator](../ai-title-generator/SKILL.md) 用公众号档，核对题面承诺与首屏。按 [wewrite-review](../wewrite-review/SKILL.md)、[去 AI 感](references/editorial.md#去-ai-感) 和本机 `wechat-article-pipeline` 的审稿规范实改。 | `article.md`、标题摘要、审稿报告、独立核查资料。 |
-| 素材与版式 | 依编辑准则和 `wechat-article-pipeline/references/image-production.md` 做图位规划。优先用可用的官方图表及视频。需要本地结构校验时用 [wechat-claw](../../../WECHAT-CLAW.md)。 | 封面、正文图或视频、图注、有权使用的依据及素材顺序。 |
-| 交接和验收 | 默认准备微信富文本审稿页。获得目标账号授权且接口已配置时可到官方草稿箱。用户选择秀米时走 [秀米交接](../../../XIUMI.md)。各路线按 [执行与交接](references/runbook.md#交接到微信或秀米) 验收。 | 自包含审稿页、原文链接、独立封面、交接清单，或对应账号的已回读草稿。 |
-| 复盘和保存 | 记录反馈、实际执行的工具和验收证据。可复用规则写回编辑准则，阶段结果写入 [历史与恢复](../../../EDITORIAL-HISTORY.md)。 | 可独立接续的稿件目录及更新后的流程。 |
+- 选题与证据用 [wewrite-topic](../wewrite-topic/SKILL.md)、`radar.py` 和定向搜索。
+- 正文用 [wewrite-write](../wewrite-write/SKILL.md)，结合[训练样本](references/training-patterns.md)、`generate_article` 和 `gzh-content-skill`。
+- 标题用 [ai-title-generator](../ai-title-generator/SKILL.md) 的公众号档。验证版式时可用 [wechat-claw](../../../WECHAT-CLAW.md)。
+- 终审用 [wewrite-review](../wewrite-review/SKILL.md) 和本机 `wechat-article-pipeline` 的审稿规范。交付按[微信或秀米路线](references/runbook.md#交接到微信或秀米)。
 
 正文以稿件目录中的 `article.md` 为准。正文的一级标题在交接时作为独立字段，摘要、作者、封面、阅读原文也各自保留。运营者最终审看并发布。只有本次获得的授权才允许账号写入，自动化的最远步骤是创建或修改已明确指定的草稿。
 

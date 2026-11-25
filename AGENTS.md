@@ -1,6 +1,6 @@
 # 公众号编辑
 
-- 本项目的统一入口是 [wechat-ai-workflow](.agents/skills/wechat-ai-workflow/SKILL.md)。任何 Agent 从仓库根目录接手，先读入口，再按 [交接手册](.agents/skills/wechat-ai-workflow/references/runbook.md) 定位稿件目录和已验收的阶段。仅处理复盘时，读取对应案例、反馈记录和编辑准则。
+- 选题、写作、改稿和复盘先读 [wechat-ai-workflow](.agents/skills/wechat-ai-workflow/SKILL.md) 与[最新编辑反馈](EDITORIAL-HISTORY.md)。按[执行手册](.agents/skills/wechat-ai-workflow/references/runbook.md#每篇执行顺序)推进，完成每轮反馈、修改或优化后执行 [GitHub 同步](.agents/skills/wechat-ai-workflow/references/runbook.md#每轮同步到-github)。
 - 使用 `radar.py` 查看选题与核查材料。在 SQLite 中确认选题为 `approved` 后，才能把实际选题交给 WeWrite 撰稿或审稿。验收演练用 `examples/` 中已有的隔离样稿。
 - 使用项目的 `.venv`，将 `WEWRITE_HOME` 设置为项目目录下的 `data/wewrite`。按需要读取 `.agents/skills/wewrite-write/SKILL.md` 和 `.agents/skills/wewrite-review/SKILL.md`，用 `run start --mode draft --visual-mode none` 启动本地写作任务。
 - 从 `card.json` 提取原始出处和已审核的证据。按具体主张判断核查状态。厂商声明注明归属，旧版差异、性能提升和实际体验需要相应证据。

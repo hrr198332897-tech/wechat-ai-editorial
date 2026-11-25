@@ -4,7 +4,7 @@
 
 ## 在 Codex 中调用
 
-从私有 GitHub 仓库克隆项目后，在仓库根目录开启新对话。可以说「用 $wechat-ai-workflow 跑今天的公众号，从最近三个自然日找三个选题」，或「用 $wechat-ai-workflow 接手这份稿件，做到公众号终审交接」。其他 Agent 从同一目录读 `AGENTS.md`、工作流入口和该稿的继续记录，也能执行同一流程。 [流程入口](.agents/skills/wechat-ai-workflow/SKILL.md) · [交接手册](.agents/skills/wechat-ai-workflow/references/runbook.md) · [编辑准则](.agents/skills/wechat-ai-workflow/references/editorial.md) · [反馈与恢复](EDITORIAL-HISTORY.md)
+从 GitHub 克隆项目后，在仓库根目录开启新对话。可以说「开始写」，或指定「从最近三个自然日找三个选题」。接续时从 `AGENTS.md` 和该稿的 `run.md` 恢复。每轮已验证的反馈和流程改动同步到 GitHub。当前仓库公开，公开同步范围见执行手册。 [流程入口](.agents/skills/wechat-ai-workflow/SKILL.md) · [执行手册](.agents/skills/wechat-ai-workflow/references/runbook.md) · [编辑反馈](EDITORIAL-HISTORY.md)
 
 可在本地从终稿重建 [英伟达公众号交接样例](examples/nvidia-2026-11-24/run.md)。秀米验收记录见 [Anthropic 制作记录](examples/anthropic-ipo-2026-11-20/production-notes.md)。
 
