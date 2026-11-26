@@ -1,10 +1,12 @@
 # AI 全球情报与公众号选题工作流
 
-这个工作流采集海内外 AI 一手来源，回查原文，合并重复事件，生成中文选题卡。选题批准后完成写作、审稿、配图和公众号交接，最后由运营者在公众号编辑页修改、预览和发布。
+「信号之外」先从 X、YouTube 和其他讨论平台找当天及临近时段最热的 5–10 个话题，查看观看情况和观众讨论，再结合公众号主题选题并核对一手出处。 [选题目标、目的与方式](.agents/skills/wechat-ai-workflow/references/runbook.md#选题目标目的与方式)
+
+选题批准后完成写作、审稿、配图和公众号交接，最后由运营者在公众号编辑页修改、预览和发布。
 
 ## 在 Codex 中调用
 
-从 GitHub 克隆项目后，在仓库根目录开启新对话。可以说「开始写」，或指定「从最近三个自然日找三个选题」。接续时从 `AGENTS.md` 和该稿的 `run.md` 恢复。每轮已验证的反馈和流程改动同步到 GitHub。当前仓库公开，公开同步范围见执行手册。 [流程入口](.agents/skills/wechat-ai-workflow/SKILL.md) · [执行手册](.agents/skills/wechat-ai-workflow/references/runbook.md) · [编辑反馈](EDITORIAL-HISTORY.md)
+从 GitHub 克隆项目后，在仓库根目录开启新对话。可以说「开始今天的公众号」，或直接给出要写的题目。接续时从 `AGENTS.md` 和该稿的 `run.md` 恢复。每轮已验证的反馈和流程改动同步到 GitHub。当前仓库公开，公开同步范围见执行手册。 [流程入口](.agents/skills/wechat-ai-workflow/SKILL.md) · [执行手册](.agents/skills/wechat-ai-workflow/references/runbook.md) · [编辑反馈](EDITORIAL-HISTORY.md)
 
 可在本地从终稿重建 [英伟达公众号交接样例](examples/nvidia-2026-11-24/run.md)。秀米验收记录见 [Anthropic 制作记录](examples/anthropic-ipo-2026-11-20/production-notes.md)。
 
