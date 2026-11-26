@@ -11,14 +11,14 @@ description: 用于信号之外的 AI 资讯选题、核查、公众号成稿、
 
 ## 从用户要求选起点
 
-- 用户要找今日热点时，按[选题目标、目的与方式](references/runbook.md#选题目标目的与方式)先看 X、YouTube 等平台，找出当天及临近时段最热的 5–10 个话题。判断观众的兴趣，再结合公众号主题选出三张简卡，由用户选一条再写。
+- 用户要找今日热点时，按[选题目标、目的与方式](references/runbook.md#选题目标目的与方式)直接看用户指定的热榜网站和分榜前三。结合观众兴趣与公众号主题，提交四张简卡，含两条 AI、两条头条新闻，由用户选定后再写。
 - 用户明确选题并要求写作时，在开稿检查中记录该题已选定，再进入事实核查。已有同一选题卡就读回。已有稿件时按稿件目录和进度记录续做。
 - 单独改稿、起标题、换图、检查或交接时，只做指定环节及其必要核对。收到新反馈后在现稿落实，保留旧稿和版本记录。
 - 用户要求自主训练写作、找准公众号定位或从范文学习时，从[定位与写作训练](references/writing-training.md)起步。用现有样稿做对照，记录取舍和一次换题材试写。
 
 ## 工具索引
 
-- 选题先看 X、YouTube 等平台的原帖、视频和讨论。[wewrite-topic](../wewrite-topic/SKILL.md) 和 `radar.py` 用于补查和回溯一手证据。本号的候选数、筛选顺序和定题以[执行手册](references/runbook.md#选题目标目的与方式)为准。
+- 选题从执行手册列出的热榜站直接选。按榜内链接回查原帖和报道。[wewrite-topic](../wewrite-topic/SKILL.md) 和 `radar.py` 用于补查和回溯一手证据。本号的候选数、筛选顺序和定题以[执行手册](references/runbook.md#选题目标目的与方式)为准。
 - 正文用 [wewrite-write](../wewrite-write/SKILL.md)，结合[训练样本](references/training-patterns.md)、`generate_article` 和 `gzh-content-skill`。
 - 标题用 [ai-title-generator](../ai-title-generator/SKILL.md) 的公众号档。验证版式时可用 [wechat-claw](../../../WECHAT-CLAW.md)。
 - 终审用 [wewrite-review](../wewrite-review/SKILL.md) 和本机 `wechat-article-pipeline` 的审稿规范。交付按[微信或秀米路线](references/runbook.md#交接到微信或秀米)。
